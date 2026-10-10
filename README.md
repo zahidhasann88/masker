@@ -63,6 +63,10 @@ pip install 'masker-db[postgres,mysql]'
 
 ## Quickstart
 
+![Masker dry-run preview showing masking rules and redacted before-and-after values](docs/screenshots/demo.png)
+
+Dry-run preview using synthetic demo data. Preview values are redacted.
+
 ### 1. Generate a rules file from your schema
 
 ```bash
