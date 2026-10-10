@@ -1,0 +1,52 @@
+# Pre-commit hooks: the same checks CI runs, but before the commit exists.
+#   pre-commit install
+#   pre-commit run --all-files
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-added-large-files
+        args: ["--maxkb=500"]
+      - id: check-ast
+      - id: check-builtin-literals
+      - id: check-case-conflict
+      - id: check-docstring-first
+      - id: check-merge-conflict
+      - id: check-toml
+      - id: check-yaml
+        args: ["--allow-multiple-documents"]
+      - id: debug-statements
+      - id: end-of-file-fixer
+      - id: mixed-line-ending
+        args: ["--fix=lf"]
+      - id: trailing-whitespace
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.8.4
+    hooks:
+      - id: ruff
+        args: ["--fix"]
+      - id: ruff-format
+
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.14.1
+    hooks:
+      - id: mypy
+        # Run on src/ only, with the project config: mypy needs the installed
+        # dependencies to resolve SQLAlchemy, typer and pydantic.
+        files: ^src/
+        args: ["--config-file=pyproject.toml"]
+        additional_dependencies:
+          - "SQLAlchemy>=2.0.30"
+          - "pydantic>=2.7"
+          - "typer>=0.12"
+          - "rich>=13.7"
+          - "types-PyYAML>=6.0"
+          - "Faker>=25.0"
+
+  - repo: https://github.com/codespell-project/codespell
+    rev: v2.3.0
+    hooks:
+      - id: codespell
+        additional_dependencies: ["tomli"]
+        skip: ^(tests/fixtures|CHANGELOG\.md)

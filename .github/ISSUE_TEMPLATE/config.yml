@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/zahidhasann88/masker/blob/main/SECURITY.md
+    about: |
+      Please report data leaks, false-negative checks and credential exposure
+      privately. Do not open a public issue.
+  - name: Usage question
+    url: https://github.com/zahidhasann88/masker/discussions
+    about: |
+      "How do I mask X?" questions are welcome in Discussions.

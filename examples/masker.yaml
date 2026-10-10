@@ -1,0 +1,100 @@
+# Sample rules file for the demo schema in examples/schema.sql.
+#
+# Every column in every table has an entry, including the ones deliberately
+# left alone with `transformer: keep` -- that marks them as reviewed rather
+# than forgotten, and `masker report` still lists them as unmasked.
+#
+# Columns joined by a foreign key (customers.id and orders.customer_id, for
+# example) share a digest namespace automatically, so they mask identically
+# and every join keeps working.
+
+version: 1
+
+settings:
+  batch_size: 2000
+  null_passthrough: true
+  create_schema: true
+  locale: en_US
+
+tables:
+
+  customers:
+    action: copy
+    columns:
+      id:         {transformer: hash}
+      email:      {transformer: email}
+      full_name:  {transformer: fake, params: {provider: name}}
+      phone:      {transformer: partial_mask, params: {keep_last: 4}}
+      dob:        {transformer: date_shift, params: {min_days: -60, max_days: 60}}
+      address:    {transformer: fake, params: {provider: street_address}}
+      city:       {transformer: fake, params: {provider: city}}
+      postcode:   {transformer: preserve_format}
+      country:    {transformer: keep}   # reviewed: country alone is not identifying here
+      ip_address: {transformer: preserve_format}
+      created_at: {transformer: keep}   # reviewed: needed for trend analysis
+
+  orders:
+    action: copy
+    columns:
+      id:          {transformer: hash}
+      customer_id: {transformer: hash}
+      placed_at:   {transformer: date_shift, params: {min_days: -14, max_days: 14}}
+      total:       {transformer: number_noise, params: {percent: 10, round_to: 2}}
+      ship_to:     {transformer: fake, params: {provider: street_address}}
+      card_number: {transformer: partial_mask, params: {keep_last: 4}}
+      notes:       {transformer: redact}  # free text: names, phones and addresses hide here
+
+  order_items:
+    action: copy
+    columns:
+      order_id:   {transformer: hash}   # same transformer + namespace as orders.id
+      sku:        {transformer: keep}   # reviewed: product catalogue, no personal data
+      quantity:   {transformer: keep}
+      unit_price: {transformer: keep}
+
+  employees:
+    action: copy
+    columns:
+      id:         {transformer: hash}
+      manager_id: {transformer: hash}   # self-referencing FK, same namespace
+      email:      {transformer: email}
+      full_name:  {transformer: fake, params: {provider: name}}
+      ssn:        {transformer: hash, params: {length: 11}}
+      salary:     {transformer: number_noise, params: {percent: 12}}
+      hired_on:   {transformer: date_shift, params: {min_days: -90, max_days: 90}}
+
+  support_tickets:
+    action: copy
+    columns:
+      id:          {transformer: keep}
+      customer_id: {transformer: hash}
+      employee_id: {transformer: hash}
+      subject:     {transformer: keep}   # reviewed: canned subject lines, no personal data
+      body:        {transformer: redact}  # free text with card endings and phone numbers
+      opened_at:   {transformer: keep}
+
+  sessions:
+    action: copy
+    columns:
+      id:          {transformer: keep}
+      customer_id: {transformer: hash}
+      ip_address:  {transformer: preserve_format}
+      user_agent:  {transformer: keep}   # reviewed: browser strings are not personal here
+      started_at:  {transformer: keep}
+
+  # A deliberate two-table FK cycle. Masker loads both tables inside a single
+  # transaction with foreign-key checks deferred.
+  suppliers:
+    action: copy
+    columns:
+      id:                   {transformer: hash}
+      name:                 {transformer: fake, params: {provider: company}}
+      contact_email:        {transformer: email}
+      default_warehouse_id: {transformer: hash}
+
+  warehouses:
+    action: copy
+    columns:
+      id:                  {transformer: hash}
+      label:               {transformer: keep}
+      primary_supplier_id: {transformer: hash}

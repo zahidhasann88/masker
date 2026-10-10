@@ -1,0 +1,50 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+build/
+dist/
+wheels/
+pip-wheel-metadata/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Tooling caches
+.cache/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+.tox/
+.nox/
+
+# Editors / OS
+.idea/
+.vscode/
+*.swp
+.DS_Store
+
+# Secrets and local databases -- never commit these
+*.key
+*.pem
+.env
+.env.*
+*.sqlite
+*.sqlite3
+*.db
+
+# Masker run artifacts
+.masker/
+
+/build-prompt.txt
+/after-build-report.txt
+/PUBLISHING.md
+/VERIFICATION.md

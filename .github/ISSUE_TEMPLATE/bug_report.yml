@@ -1,0 +1,80 @@
+name: Bug report
+description: Something in Masker behaves incorrectly
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report this.
+
+        **If you have found a security problem — data leaking into a masked
+        copy, or a check reporting clean when it is not — please follow
+        [SECURITY.md](../blob/main/SECURITY.md) instead of opening an issue.**
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: What did you run, what did you expect, what did you get?
+      placeholder: Paste the command, the error and the relevant output.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Minimal reproduction
+      description: |
+        The smallest schema and rules file that shows the problem. Remove all
+        secrets and real data. Masker redacts credentials in its own output, but
+        please do not paste a real key or real personal data here.
+      render: yaml
+      placeholder: |
+        # masker.yaml
+        tables:
+          users:
+            columns:
+              email: {transformer: email}
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Masker version
+      description: From `masker --version`
+      placeholder: "0.1.0"
+    validations:
+      required: true
+  - type: input
+    id: python
+    attributes:
+      label: Python version
+      description: From `python --version`
+      placeholder: "3.12.4"
+    validations:
+      required: true
+  - type: dropdown
+    id: backend
+    attributes:
+      label: Database backend
+      multiple: true
+      options:
+        - SQLite
+        - PostgreSQL
+        - MySQL / MariaDB
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Full output
+      description: The complete console output, redacted. Long output is more useful than a summary.
+      render: text
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before you submit
+      options:
+        - label: I searched existing issues and this is not a duplicate.
+          required: true
+        - label: I removed secrets and real personal data from everything above.
+          required: true
