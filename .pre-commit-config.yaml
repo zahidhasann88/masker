@@ -49,4 +49,4 @@ repos:
     hooks:
       - id: codespell
         additional_dependencies: ["tomli"]
-        skip: ^(tests/fixtures|CHANGELOG\.md)
+        skip: ^tests/fixtures

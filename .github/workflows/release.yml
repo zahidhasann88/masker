@@ -112,4 +112,4 @@ jobs:
           RELEASE_TAG: ${{ inputs.tag || github.ref_name }}
         run: |
           gh release create "$RELEASE_TAG" dist/* --verify-tag \
-            --title "$RELEASE_TAG" --notes-file CHANGELOG.md
+            --title "$RELEASE_TAG" --generate-notes

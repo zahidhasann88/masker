@@ -44,7 +44,7 @@ htmlcov/
 # Masker run artifacts
 .masker/
 
-/build-prompt.txt
-/after-build-report.txt
+/build-docs.txt
+/build-report.txt
 /PUBLISHING.md
 /VERIFICATION.md

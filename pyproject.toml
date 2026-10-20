@@ -64,7 +64,6 @@ masker = "masker.cli:main"
 Homepage = "https://github.com/zahidhasann88/masker"
 Repository = "https://github.com/zahidhasann88/masker"
 Issues = "https://github.com/zahidhasann88/masker/issues"
-Changelog = "https://github.com/zahidhasann88/masker/blob/main/CHANGELOG.md"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/masker"]
@@ -76,10 +75,7 @@ include = [
   "/examples",
   "/scripts",
   "/README.md",
-  "/CHANGELOG.md",
-  "/CONTRIBUTING.md",
   "/LICENSE",
-  "/SECURITY.md",
 ]
 
 # --------------------------------------------------------------------------- #

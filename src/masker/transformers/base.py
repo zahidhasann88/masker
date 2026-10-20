@@ -10,7 +10,7 @@ has to re-implement them:
 * **fit** -- results are coerced to the column's SQL type and truncated to its
   declared length.
 
-See ``CONTRIBUTING.md`` for the "add a transformer" walkthrough.
+See the existing modules in this package for examples of adding a transformer.
 """
 
 from __future__ import annotations
